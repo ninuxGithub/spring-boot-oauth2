@@ -88,7 +88,10 @@ public class OAuth2ServerConfiguration {
                     .authorities("USER")
                     .scopes("read", "write")
                     .resourceIds(RESOURCE_ID)
-                    .secret("123456");
+                    .secret("123456")
+                    .accessTokenValiditySeconds(1800)
+                    .refreshTokenValiditySeconds(600);
+            
             // @formatter:on
         }
 
