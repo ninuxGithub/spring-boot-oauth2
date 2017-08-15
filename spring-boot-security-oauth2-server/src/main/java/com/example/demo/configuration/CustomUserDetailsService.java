@@ -1,4 +1,4 @@
-package com.example.demo.service;
+package com.example.demo.configuration;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -12,17 +12,17 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
 
 
-@Service
-public class UserDetailService implements UserDetailsService{
+@Component
+public class CustomUserDetailsService implements UserDetailsService{
 	
-	private static final Logger logger = LoggerFactory.getLogger(UserDetailService.class);
+	private static final Logger logger = LoggerFactory.getLogger(CustomUserDetailsService.class);
 	
 	@Autowired
 	private UserRepository userRepository;
