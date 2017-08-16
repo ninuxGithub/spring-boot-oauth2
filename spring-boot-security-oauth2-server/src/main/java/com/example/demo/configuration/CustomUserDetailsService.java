@@ -33,6 +33,9 @@ public class CustomUserDetailsService implements UserDetailsService{
 			logger.error("username is empty {} ", username);
 		}
 		User repositoryUser = userRepository.findUserByUsername(username);
+		if(null == repositoryUser) {
+			throw new UsernameNotFoundException("没有找到对应的user :"+username );
+		}
 		
 		Collection<SimpleGrantedAuthority> collection = new HashSet<>();
 		for(Iterator<Role> iterator = repositoryUser.getRoles().iterator(); iterator.hasNext();) {

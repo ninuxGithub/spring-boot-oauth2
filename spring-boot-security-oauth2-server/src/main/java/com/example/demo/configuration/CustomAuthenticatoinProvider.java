@@ -18,6 +18,7 @@ public class CustomAuthenticatoinProvider extends AbstractUserDetailsAuthenticat
      * The Logger for this class.
      */
     private Logger logger = LoggerFactory.getLogger(this.getClass());
+    
 
     /**
      * A Spring Security UserDetailsService implementation based upon the
@@ -31,7 +32,7 @@ public class CustomAuthenticatoinProvider extends AbstractUserDetailsAuthenticat
      */
     
     @Autowired
-    private Md5PasswordEncoder passwordEncoder;
+    private Md5PasswordEncoder md5PasswordEncoder;
 //    @Autowired
 //    private PasswordEncoder passwordEncoder;
 
@@ -43,7 +44,7 @@ public class CustomAuthenticatoinProvider extends AbstractUserDetailsAuthenticat
             throw new BadCredentialsException("Credentials may not be null.");
         }
         
-        String encoderPass = passwordEncoder.encodePassword((String) token.getCredentials(), null);
+        String encoderPass = md5PasswordEncoder.encodePassword((String) token.getCredentials(), null);
         logger.info("credential is {}", token.getCredentials());
         if(!encoderPass.equals(userDetails.getPassword())){
         	throw new BadCredentialsException("Invalid credentials.");

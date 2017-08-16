@@ -1,20 +1,26 @@
 package com.example.demo.configuration;
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
+import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+
+import com.example.demo.utils.MD5PasswodEncoder;
 
 @Configuration
 public class OAuth2ServerConfiguration {
@@ -34,7 +40,8 @@ public class OAuth2ServerConfiguration {
         @Override
         public void configure(ResourceServerSecurityConfigurer resources) {
             // @formatter:off
-            resources.resourceId(RESOURCE_ID).tokenStore(tokenStore);
+//            resources.resourceId(RESOURCE_ID).tokenStore(tokenStore);
+        	resources.tokenStore(tokenStore);
             // @formatter:on
         }
 
@@ -61,8 +68,8 @@ public class OAuth2ServerConfiguration {
         @Autowired
         private TokenStore tokenStore;
         
-//        @Autowired
-//        private DataSource dataSource;
+        @Autowired
+        private DataSource dataSource;
 
         @Autowired
         @Qualifier("authenticationManagerBean")
@@ -97,34 +104,44 @@ public class OAuth2ServerConfiguration {
          * 
          * 目前是采用的内置的ClientDetails
          */
+        
+//        @Autowired
+//        private CustomClientDetailsService customClientDetailsService;
 
         @Override
         public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
             // @formatter:off
         	
-//        	clients.jdbc(dataSource);
-            clients
-                    .inMemory()
-                    .withClient("clientapp")
-                    .authorizedGrantTypes("password","refresh_token","client_credentials")
-                    .authorities("USER")
-                    .scopes("read", "write")
-                    .resourceIds(RESOURCE_ID)
-                    .secret("123456")
-                    .accessTokenValiditySeconds(1800)
-                    .refreshTokenValiditySeconds(600);
+        	clients.jdbc(dataSource);//1
+        	/**
+        	 * 如果采用jdbc() 那么需要在数据库指定token的有效时间
+        	 * 
+        	 * 如果是inMemory() 采用属性来指定token的有效时间
+        	 */
+//        	customClientDetailsService.setPasswordEncoder(MD5PasswodEncoder.getInstance());
+//        	clients.withClientDetails(customClientDetailsService);//2
+//            clients
+//                    .inMemory()
+//                    .withClient("clientapp")
+//                    .authorizedGrantTypes("password","refresh_token","client_credentials")
+//                    .authorities("USER")
+//                    .scopes("read", "write")
+//                    .resourceIds(RESOURCE_ID)
+//                    .secret("123456")
+//                    .accessTokenValiditySeconds(1800)
+//                    .refreshTokenValiditySeconds(600);//3
             
             // @formatter:on
         }
 
 
 
-//		@Override
-//		public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-//			security.allowFormAuthenticationForClients();//允许客户表单认证
+		@Override
+		public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
+			security.allowFormAuthenticationForClients();//允许客户表单认证
 //			security.passwordEncoder(new BCryptPasswordEncoder());//设置oauth_client_details中的密码编码器
-//			security.checkTokenAccess("permitAll()");//对于CheckEndpoint控制器[框架自带的校验]的/oauth/check端点允许所有客户端发送器请求而不会被Spring-security拦截
-//		}
+			security.checkTokenAccess("permitAll()");//对于CheckEndpoint控制器[框架自带的校验]的/oauth/check端点允许所有客户端发送器请求而不会被Spring-security拦截
+		}
         
         
 
