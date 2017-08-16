@@ -37,7 +37,7 @@ public class CustomAuthenticatoinProvider extends AbstractUserDetailsAuthenticat
 
     @Override
     protected void additionalAuthenticationChecks(UserDetails userDetails, UsernamePasswordAuthenticationToken token) throws AuthenticationException {
-        logger.debug("> additionalAuthenticationChecks");
+        logger.info("==>additionalAuthenticationChecks");
 
         if (token.getCredentials() == null || userDetails.getPassword() == null) {
             throw new BadCredentialsException("Credentials may not be null.");
@@ -53,16 +53,12 @@ public class CustomAuthenticatoinProvider extends AbstractUserDetailsAuthenticat
 //            throw new BadCredentialsException("Invalid credentials.");
 //        }
 
-        logger.debug("< additionalAuthenticationChecks");
     }
 
     @Override
     protected UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken token) throws AuthenticationException {
-        logger.debug("> retrieveUser");
-
+        logger.info("==>retrieveUser");
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-
-        logger.debug("< retrieveUser");
         return userDetails;
     }
 

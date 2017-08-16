@@ -60,6 +60,9 @@ public class OAuth2ServerConfiguration {
 
         @Autowired
         private TokenStore tokenStore;
+        
+//        @Autowired
+//        private DataSource dataSource;
 
         @Autowired
         @Qualifier("authenticationManagerBean")
@@ -84,10 +87,22 @@ public class OAuth2ServerConfiguration {
             }
             // @formatter:on
         }
+        
+        
+        
+        /**
+         * 如何采用本地数据库的ClientDetails呢？
+         * 
+         * 
+         * 
+         * 目前是采用的内置的ClientDetails
+         */
 
         @Override
         public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
             // @formatter:off
+        	
+//        	clients.jdbc(dataSource);
             clients
                     .inMemory()
                     .withClient("clientapp")
@@ -101,6 +116,17 @@ public class OAuth2ServerConfiguration {
             
             // @formatter:on
         }
+
+
+
+//		@Override
+//		public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
+//			security.allowFormAuthenticationForClients();//允许客户表单认证
+//			security.passwordEncoder(new BCryptPasswordEncoder());//设置oauth_client_details中的密码编码器
+//			security.checkTokenAccess("permitAll()");//对于CheckEndpoint控制器[框架自带的校验]的/oauth/check端点允许所有客户端发送器请求而不会被Spring-security拦截
+//		}
+        
+        
 
     }
 
