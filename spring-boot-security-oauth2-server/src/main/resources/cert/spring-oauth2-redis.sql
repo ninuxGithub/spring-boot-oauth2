@@ -39,8 +39,8 @@ CREATE TABLE `oauth_client_details` (
 -- ----------------------------
 
 --client-secret:123456 加密方式是md5
-INSERT INTO `oauth_client_details` VALUES ('client_auth_mode', null, 'e10adc3949ba59abbe56e057f20f883e', 'read,write', 'client_credentials,refresh_token', null, 'USER', '1800', '600', null, null);
-INSERT INTO `oauth_client_details` VALUES ('password_auth_mode', '', 'e10adc3949ba59abbe56e057f20f883e', 'read,write', 'refresh_token,password', null, 'USER', '1800', '600', null, null);
+INSERT INTO `oauth_client_details` VALUES ('client_auth_mode', 'oauth2-resource', 'e10adc3949ba59abbe56e057f20f883e', 'read,write', 'client_credentials,refresh_token', null, 'USER', '1800', '600', null, null);
+INSERT INTO `oauth_client_details` VALUES ('password_auth_mode', 'oauth2-resource', 'e10adc3949ba59abbe56e057f20f883e', 'read,write', 'refresh_token,password', null, 'USER', '1800', '600', null, null);
 
 -- ----------------------------
 -- Table structure for security_role
