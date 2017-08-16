@@ -2,6 +2,7 @@ package com.example.demo.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -66,6 +67,9 @@ public class OAuth2ServerConfiguration {
 
         @Autowired
         CustomUserDetailsService userDetailsService;
+        
+        @Value("${useJwtTokenStore}")
+        private boolean useJwtTokenStore= false;
 
         @Override
         public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
@@ -73,8 +77,11 @@ public class OAuth2ServerConfiguration {
             endpoints
                     .tokenStore(tokenStore)
                     .authenticationManager(authenticationManager)
-                    .accessTokenConverter(jwtAccessTokenConverter)
+                    //.accessTokenConverter(jwtAccessTokenConverter)
                     .userDetailsService(userDetailsService);
+            if(useJwtTokenStore) {
+            	endpoints.accessTokenConverter(jwtAccessTokenConverter);
+            }
             // @formatter:on
         }
 

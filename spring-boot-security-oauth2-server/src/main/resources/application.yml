@@ -10,3 +10,7 @@ server:
 spring:
   profiles:
     active: dev
+    
+
+useJwtTokenStore: false
+  
