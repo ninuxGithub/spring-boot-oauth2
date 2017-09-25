@@ -2,7 +2,7 @@ logging:
   level:
     org.springframework:
       data: info
-      security: INFO
+      security: debug
 server:
   port: 80
 spring:
