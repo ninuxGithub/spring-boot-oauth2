@@ -2,7 +2,7 @@
 spring-boot oauth2
 
 项目:spring-boot-oauth2-server 可以采用任何方式获取token
-项目：spring-boot-security-oauth2-server 可以采用客户端方式， 密码方式获取到token 需要修改
+项目：spring-boot-security-oauth2-server 可以采用任何方式获取token，可以自定义是否采用jwt
 
 这是数据库对的client_details 的两天记录：每个记录拥有不同的获取token的方式观察authorized_token_type 字段  
 client_auth_mode	oauth2-resource	e10adc3949ba59abbe56e057f20f883e	read,write	client_credentials,refresh_token		USER	1800	600		
