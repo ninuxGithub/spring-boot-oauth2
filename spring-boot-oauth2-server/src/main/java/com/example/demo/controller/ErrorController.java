@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,10 @@ public class ErrorController {
 	public String error(@RequestParam Map<String,String> parameters) {
 		String uri = parameters.get("redirect_uri");
 		logger.info("重定向到：{}", uri);
+		if(StringUtils.isBlank(uri)){
+			logger.info("跳转的Uri 为空...");
+			return "redirect:/";
+		}
 		return "redirect:"+ uri+"?error=1";
 	}
 }

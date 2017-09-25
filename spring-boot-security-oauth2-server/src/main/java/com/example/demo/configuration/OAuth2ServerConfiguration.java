@@ -48,8 +48,24 @@ public class OAuth2ServerConfiguration {
 		@Override
 		public void configure(HttpSecurity http) throws Exception {
 			// @formatter:off
-//			http.authorizeRequests().antMatchers(HttpMethod.OPTIONS).permitAll().anyRequest().authenticated().and().httpBasic().and().csrf().disable();
-			http.csrf().disable().authorizeRequests().antMatchers("/api/**").authenticated();
+			// http.authorizeRequests().antMatchers("/index").permitAll().anyRequest().authenticated().and().httpBasic().and().csrf().disable();
+			// http.csrf().disable().authorizeRequests().antMatchers("/api/**").authenticated();
+			// http.authorizeRequests().antMatchers("/index").permitAll();
+
+			http.csrf().disable().authorizeRequests().antMatchers("/index/**").permitAll().antMatchers("/api/**")
+					.access("hasRole('ADMIN') or hasRole('USER')").anyRequest().authenticated();
+
+			// http
+			// .csrf().disable()
+			// .authorizeRequests()
+			// .antMatchers("/index" ,"/api/**").permitAll()
+			// .anyRequest().authenticated()
+			// .and()
+			// .formLogin()
+			// .loginPage("/authentication.html")
+			// .loginProcessingUrl("/login")
+			// .failureUrl("/authentication.html")
+			// .permitAll();
 			// @formatter:on
 		}
 
@@ -121,8 +137,6 @@ public class OAuth2ServerConfiguration {
 			 * 自定义客户端的加密方式：MD5
 			 */
 			security.allowFormAuthenticationForClients().passwordEncoder(MD5PasswodEncoder.getInstance());// 允许客户表单认证
-			// security.passwordEncoder(new
-			// BCryptPasswordEncoder());//设置oauth_client_details中的密码编码器
 			security.checkTokenAccess("permitAll()");// 对于CheckEndpoint控制器[框架自带的校验]的/oauth/check端点允许所有客户端发送器请求而不会被Spring-security拦截
 		}
 

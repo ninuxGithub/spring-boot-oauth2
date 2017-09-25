@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>jsonP 跨域</title>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
+  
+	function selfCallback(v) {
+		console.dir(v);
+	}
+
+
+	$.ajax({
+		type : 'get',
+		url : 'http://localhost:8080/angular-demo/selfCalllback',
+		dataType : 'jsonp',
+		jsonpCallback : 'selfCallback',
+		success : function(json) {
+			console.log(json);
+			console.log("selfCallback run...");
+		},
+		error : function() {
+			console.log('error')
+		}
+	});
+
+</script>  
+</head>
+<body>
+</body>
+</html>

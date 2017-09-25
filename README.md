@@ -99,6 +99,28 @@ http://127.0.0.1/api/users/?access_token=af220974-e93d-4085-aa20-b4b414f01ba6
 
 
 
+### 对特定页面放行（不经过授权）
+我们的案例目前使用的是WebSecurityConfigurerAdapter中默认的HttpSecurity对象的配置，该配置是要求应用中所有url的访问都需要进行验证。我们也可以自定义哪些URL需要权限验证，哪些不需要。只需要在我们的SecurityConfig类中覆写configure(HttpSecurity http)方法即可。
+protected void configure(HttpSecurity http ) throws Exception {
+             http
+                  .authorizeRequests()            1                                                   
+                        .antMatchers( "/resources/**", "/signup" , "/about").permitAll()  2
+                        .antMatchers( "/admin/**").hasRole("ADMIN" )                    3    
+                        .antMatchers( "/db/**").access("hasRole('ADMIN') and hasRole('DBA')")  4
+                        .anyRequest().authenticated()        5
+                                         
+                        .and()
+                   // ...
+                  .formLogin();
+      }
+1、http.authorizeRequests()方法有很多子方法，每个子匹配器将会按照声明的顺序起作用。
+2、指定用户可以访问的多个url模式。特别的，任何用户可以访问以"/resources"开头的url资源，或者等于"/signup"或about
+3、任何以"/admin"开头的请求限制用户具有 "ROLE_ADMIN"角色。你可能已经注意的，尽管我们调用的hasRole方法，但是不用传入"ROLE_"前缀
+4、任何以"/db"开头的请求同时要求用户具有"ROLE_ADMIN"和"ROLE_DBA"角色。
+5、任何没有匹配上的其他的url请求，只需要用户被验证。
+
+
+
 
 
 

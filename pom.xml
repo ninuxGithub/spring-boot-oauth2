@@ -113,5 +113,6 @@
 	<modules>
 		<module>spring-boot-oauth2-server</module>
 		<module>spring-boot-security-oauth2-server</module>
+		<module>spring-boot-oauth2-client</module>
 	</modules>
 </project>

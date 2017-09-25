@@ -10,6 +10,7 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -36,6 +37,13 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService);
         auth.authenticationProvider(accountAuthenticationProvider);
     }
+    
+    @Override
+	public void configure(WebSecurity web) throws Exception {
+		super.configure(web);
+		web.ignoring().antMatchers("/static/**");
+		web.ignoring().antMatchers("/WEB-INF/**");
+	}
 
     /**
      * 用户采用md5加密用户的密码
@@ -46,10 +54,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new Md5PasswordEncoder();
     }
     
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
 
     @Override
     @Bean
@@ -64,10 +68,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         return jwtAccessTokenConverter;
     }
 
-//    @Bean
-//    public TokenStore tokenStore() {
-//        return new JwtTokenStore(jwtAccessTokenConverter());
-//    }
     
     
     //目前不知道有什么区别
