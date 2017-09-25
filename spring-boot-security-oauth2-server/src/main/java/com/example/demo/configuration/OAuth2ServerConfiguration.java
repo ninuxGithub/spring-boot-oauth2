@@ -48,6 +48,7 @@ public class OAuth2ServerConfiguration {
 		@Override
 		public void configure(HttpSecurity http) throws Exception {
 			// @formatter:off
+//			http.authorizeRequests().antMatchers(HttpMethod.OPTIONS).permitAll().anyRequest().authenticated().and().httpBasic().and().csrf().disable();
 			http.csrf().disable().authorizeRequests().antMatchers("/api/**").authenticated();
 			// @formatter:on
 		}
