@@ -20,6 +20,11 @@ password_auth_mode	oauth2-resource	e10adc3949ba59abbe56e057f20f883e	read,write	r
 ### 客户端授权方式
 客户端获取token的方式：
 http://127.0.0.1/oauth/token?grant_type=client_credentials
+body部分：{
+	grant_type:client_credentials
+	client_id:client_auth_mode
+	client_secret:123456
+}
 结果：
 {
     "access_token": "af220974-e93d-4085-aa20-b4b414f01ba6",
@@ -35,6 +40,14 @@ postman : http://127.0.0.1/oauth/token
 Authorization 界面输入参数username password（其实这个是client_id, client_secrect）
 在body界面输入参数：username, password granttype client_id client_secrect scope 
 
+body部分{
+	username:admin
+	password:password
+	grant_type:password
+	client_id:password_auth_mode
+	client_secret:123456
+}
+
 结果：
 {
     "access_token": "2a55328c-20f2-445c-b4a8-94ae59ce8f1e",
@@ -45,11 +58,11 @@ Authorization 界面输入参数username password（其实这个是client_id, cl
 }
 
 ### 授权码方式
-http://127.0.0.1/oauth/authorize?response_type=code&client_id=password_auth_mode&redirect_uri=http://www.baidu.com
+http://127.0.0.1/oauth/authorize?response_type=code&client_id=password_auth_mode&redirect_uri=https://www.baidu.com
 然后采用postman发送请求：（一定要注意参数名称的正确性，我写成了redirect_url 总是报错纠结了好久）
 body 部分：
-		username:admin
-		password:password
+		//username:admin---不是必选
+		//password:password--不是必选
 		grant_type:authorization_code
 		client_id:password_auth_mode
 		code:Oy3F7L
@@ -118,6 +131,17 @@ http://127.0.0.1/api/users/?access_token=af220974-e93d-4085-aa20-b4b414f01ba6
 3、任何以"/admin"开头的请求限制用户具有 "ROLE_ADMIN"角色。你可能已经注意的，尽管我们调用的hasRole方法，但是不用传入"ROLE_"前缀      
 4、任何以"/db"开头的请求同时要求用户具有"ROLE_ADMIN"和"ROLE_DBA"角色。      
 5、任何没有匹配上的其他的url请求，只需要用户被验证。      
+
+
+
+#### 要注意的地方
+
+	本来想采用表单提交到/springOauth/token 页面后再采用  httpclient 将参数发送到url:  /oauth/token  获取token，
+	这种想法是正确的但是现实不是这样的， 他会认为这个client_id 对应的用户是匿名用户，拒绝授权
+	
+	正确的做法是直接采用表单将数据post到  server的地址：/oauth/token ,直接获取token
+	请查看authorizationCodePage.jsp 页面
+	
 
 
 

@@ -1,11 +1,13 @@
 package com.example.demo.configuration;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -19,6 +21,9 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.web.csrf.CsrfTokenRepository;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import com.example.demo.utils.MD5PasswodEncoder;
 
@@ -45,28 +50,61 @@ public class OAuth2ServerConfiguration {
 			// @formatter:on
 		}
 
+		// @Override
+		// public void configure(HttpSecurity http) throws Exception {
+		// // @formatter:off
+		// //
+		// http.authorizeRequests().antMatchers("/index").permitAll().anyRequest().authenticated().and().httpBasic().and().csrf().disable();
+		// //
+		// http.csrf().disable().authorizeRequests().antMatchers("/api/**").authenticated();
+		// // http.authorizeRequests().antMatchers("/index").permitAll();
+		//
+		// http.csrf().disable().authorizeRequests().antMatchers("/index/**").permitAll().antMatchers("/api/**")
+		// .access("hasRole('ADMIN') or hasRole('USER')").anyRequest().authenticated();
+		//
+		// // http
+		// // .csrf().disable()
+		// // .authorizeRequests()
+		// // .antMatchers("/index" ,"/api/**").permitAll()
+		// // .anyRequest().authenticated()
+		// // .and()
+		// // .formLogin()
+		// // .loginPage("/authentication.html")
+		// // .loginProcessingUrl("/login")
+		// // .failureUrl("/authentication.html")
+		// // .permitAll();
+		// // @formatter:on
+		// }
+
 		@Override
 		public void configure(HttpSecurity http) throws Exception {
 			// @formatter:off
-			// http.authorizeRequests().antMatchers("/index").permitAll().anyRequest().authenticated().and().httpBasic().and().csrf().disable();
-			// http.csrf().disable().authorizeRequests().antMatchers("/api/**").authenticated();
-			// http.authorizeRequests().antMatchers("/index").permitAll();
-
-			http.csrf().disable().authorizeRequests().antMatchers("/index/**").permitAll().antMatchers("/api/**")
-					.access("hasRole('ADMIN') or hasRole('USER')").anyRequest().authenticated();
-
-			// http
-			// .csrf().disable()
-			// .authorizeRequests()
-			// .antMatchers("/index" ,"/api/**").permitAll()
-			// .anyRequest().authenticated()
-			// .and()
-			// .formLogin()
-			// .loginPage("/authentication.html")
-			// .loginProcessingUrl("/login")
-			// .failureUrl("/authentication.html")
-			// .permitAll();
+			http.csrf().csrfTokenRepository(csrfTokenRepository());
+			http.requestMatcher(new OAuth2RequestedMatcher()).authorizeRequests()
+					.antMatchers(HttpMethod.OPTIONS, "/springOauth/**","/oauth/**").permitAll().anyRequest()
+					.authenticated().and().csrf().disable().httpBasic();
 			// @formatter:on
+		}
+
+		private CsrfTokenRepository csrfTokenRepository() {
+			HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
+			repository.setSessionAttributeName("_csrf");
+			return repository;
+		}
+
+		/**
+		 * 定义一个oauth2的请求匹配器
+		 */
+		private static class OAuth2RequestedMatcher implements RequestMatcher {
+			@Override
+			public boolean matches(HttpServletRequest request) {
+				String auth = request.getHeader("Authorization");
+				// 判断来源请求是否包含oauth2授权信息,这里授权信息来源可能是头部的Authorization值以Bearer开头
+				// 或者是请求参数中包含access_token参数,满足其中一个则匹配成功
+				boolean haveOauth2Token = (auth != null) && auth.startsWith("Bearer");
+				boolean haveAccessToken = request.getParameter("access_token") != null;
+				return haveOauth2Token || haveAccessToken;
+			}
 		}
 
 	}
