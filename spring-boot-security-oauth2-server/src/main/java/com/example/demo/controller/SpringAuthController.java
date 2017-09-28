@@ -23,7 +23,6 @@ public class SpringAuthController extends BaseController {
 
 	@RequestMapping(value = { "/", "/index" })
 	public String index() {
-		System.out.println("enter index controller");
 		return "index";
 	}
 
@@ -34,18 +33,6 @@ public class SpringAuthController extends BaseController {
 		mv.setViewName("authorizationCode");
 		return mv;
 	}
-
-	// @ResponseBody
-	// @RequestMapping(value = "/oauthAuthorizeUrl",method = { RequestMethod.GET,
-	// RequestMethod.POST })
-	// public String oauthAuthorizeUrl(){
-	// System.err.println("enter ajax....");
-	// System.err.println(springOauthAuthorize);
-	//
-	//
-	//
-	// return springOauthAuthorize;
-	// }
 
 	@RequestMapping(value = "/authorizationCodePage", method = { RequestMethod.GET, RequestMethod.POST })
 	public String authorizationCodePage() {
@@ -59,31 +46,41 @@ public class SpringAuthController extends BaseController {
 	public String clientOauth() {
 		return "clientOauth";
 	}
+	
+	@RequestMapping(value = { "implicitOauth" }, method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView implicitOauth(ModelAndView mv) {
+		mv.addObject("oauthUrl", springOauthAuthorize);
+		mv.setViewName("implicitOauth");
+		return mv;
+	}
 
+	
+	
+	/**
+	 * 不可以采用中中方式， 会导致匿名用户的错误
+	 * @param clientId
+	 * @param clientSecret
+	 * @param redirectUri
+	 * @param grantType
+	 * @param code
+	 * @param csrf
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value = { "/authToken" }, method = { RequestMethod.GET, RequestMethod.POST })
 	public String authorizationCodeForm(@RequestParam("client_id") String clientId,
 			@RequestParam("client_secret") String clientSecret, @RequestParam("redirect_uri") String redirectUri,
 			@RequestParam("grant_type") String grantType,
-//			@RequestParam("username") String username,
-//			@RequestParam("password") String password,
 			@RequestParam("code") String code, @RequestParam("_csrf") String csrf) {
 		
 		Map<String, String> params = new HashMap<>();
 		params.put("client_id", clientId);
 		params.put("client_secret", clientSecret);
 		params.put("grant_type", grantType);
-//		params.put("username", username);
-//		params.put("password", password);
 		params.put("redirect_uri", redirectUri);
 		params.put("code", code);
-//		params.put("_csrf", csrf);
-//		params.put("token", csrf);
-//		
-//		
-//
-//		System.err.println("authToken:"+ csrf);
-		System.err.println(params);
+		
+		
 		try {
 			String postData = HttpClientUtil.connectPostHttps(springOauthToken, params);
 			if (StringUtils.isNotBlank(postData)) {

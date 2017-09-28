@@ -18,9 +18,10 @@
 	</div>	
 	<div class="panel panel-body">
 		<ul>
-			<li><a href="${request.contextPath}/springOauth/authorizationCode">授权码</a></li>
-			<li><a href="${request.contextPath}/springOauth/passwordOauth">密码授权</a></li>
+			<li><a href="${request.contextPath}/springOauth/authorizationCode">授权码 (结果携带refresh_token)</a></li>
+			<li><a href="${request.contextPath}/springOauth/passwordOauth">密码授权 (结果携带refresh_token)</a></li>
 			<li><a href="${request.contextPath}/springOauth/clientOauth">客户端信任授权</a></li>
+			<li><a href="${request.contextPath}/springOauth/implicitOauth">隐式授权</a></li>
 		</ul>
 	</div>	
 	<div class="panel panel-footer">
