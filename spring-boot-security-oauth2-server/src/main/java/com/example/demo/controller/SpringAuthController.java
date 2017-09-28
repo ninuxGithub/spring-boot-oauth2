@@ -3,6 +3,9 @@ package com.example.demo.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +31,7 @@ public class SpringAuthController extends BaseController {
 
 	@RequestMapping(value = { "authorizationCode" }, method = { RequestMethod.GET, RequestMethod.POST })
 	public ModelAndView authorizationCode(ModelAndView mv) {
-		System.out.println("authorization code to grant");
+		System.err.println("#######");
 		mv.addObject("oauthUrl", springOauthAuthorize);
 		mv.setViewName("authorizationCode");
 		return mv;
@@ -71,7 +74,7 @@ public class SpringAuthController extends BaseController {
 	public String authorizationCodeForm(@RequestParam("client_id") String clientId,
 			@RequestParam("client_secret") String clientSecret, @RequestParam("redirect_uri") String redirectUri,
 			@RequestParam("grant_type") String grantType,
-			@RequestParam("code") String code, @RequestParam("_csrf") String csrf) {
+			@RequestParam("code") String code, @RequestParam("_csrf") String csrf, HttpServletRequest request, HttpServletResponse response) {
 		
 		Map<String, String> params = new HashMap<>();
 		params.put("client_id", clientId);
@@ -79,6 +82,7 @@ public class SpringAuthController extends BaseController {
 		params.put("grant_type", grantType);
 		params.put("redirect_uri", redirectUri);
 		params.put("code", code);
+		
 		
 		
 		try {

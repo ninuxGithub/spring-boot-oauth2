@@ -142,7 +142,16 @@ http://127.0.0.1/api/users/?access_token=af220974-e93d-4085-aa20-b4b414f01ba6
 	正确的做法是直接采用表单将数据post到  server的地址：/oauth/token ,直接获取token
 	请查看authorizationCodePage.jsp 页面
 	
+#### oauth2 须知
 
+	所有获取令牌的请求都将会在Spring MVC controller endpoints中进行处理，并且访问受保护的资源服务的处理流程将会放在标准的Spring Security请求过滤器中(filters)。
+	 
+	下面是配置一个授权服务必须要实现的endpoints：   
+	AuthorizationEndpoint：用来作为请求者获得授权的服务，默认的URL是/oauth/authorize.
+	TokenEndpoint：用来作为请求者获得令牌（Token）的服务，默认的URL是/oauth/token.
+	 
+	下面是配置一个资源服务必须要实现的过滤器：
+	OAuth2AuthenticationProcessingFilter：用来作为认证令牌（Token）的一个处理流程过滤器。只有当过滤器通过之后，请求者才能获得受保护的资源。
 
 
 

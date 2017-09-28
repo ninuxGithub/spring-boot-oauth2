@@ -79,21 +79,21 @@ public class OAuth2ServerConfiguration {
 		public void configure(HttpSecurity http) throws Exception {
 			// @formatter:off
 //			http.antMatcher("/oauth/authorized").csrf().disable();
-//			http.csrf().csrfTokenRepository(csrfTokenRepository());
-//			http.authorizeRequests()
-//					.antMatchers("/springOauth/**","/oauth/**").permitAll()
-//					.antMatchers("/api/**").authenticated()
-//					.antMatchers("/api/**").access("hasRole('ADMIN') and hasRole('USER')")
-//					.anyRequest().authenticated()
-//					.and().csrf().disable().httpBasic();
+			http.csrf().csrfTokenRepository(csrfTokenRepository());
+			http.authorizeRequests()
+					.antMatchers("/springOauth/**","/oauth/**").permitAll()
+					.antMatchers("/api/**").authenticated()
+					.antMatchers("/api/**").access("hasRole('ADMIN') and hasRole('USER')")
+					.anyRequest().authenticated()
+					.and().csrf().disable().httpBasic();
 			 //@formatter:on
 			// @formatter:off back up
-			http.csrf().csrfTokenRepository(csrfTokenRepository());
-			http.requestMatcher(new OAuth2RequestedMatcher()).authorizeRequests()
-			.antMatchers("/api/**").authenticated()
-			.antMatchers("/springOauth/**","/oauth/**").permitAll()
-			.anyRequest().authenticated()
-			.and().csrf().disable().httpBasic();
+//			http.csrf().csrfTokenRepository(csrfTokenRepository());
+//			http.requestMatcher(new OAuth2RequestedMatcher()).authorizeRequests()
+//			.antMatchers("/api/**").authenticated()
+//			.antMatchers("/springOauth/**","/oauth/**").permitAll()
+//			.anyRequest().authenticated()
+//			.and().csrf().disable().httpBasic();
 			// @formatter:on
 		}
 
