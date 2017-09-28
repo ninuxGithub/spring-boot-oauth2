@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -79,10 +78,22 @@ public class OAuth2ServerConfiguration {
 		@Override
 		public void configure(HttpSecurity http) throws Exception {
 			// @formatter:off
+//			http.antMatcher("/oauth/authorized").csrf().disable();
+//			http.csrf().csrfTokenRepository(csrfTokenRepository());
+//			http.authorizeRequests()
+//					.antMatchers("/springOauth/**","/oauth/**").permitAll()
+//					.antMatchers("/api/**").authenticated()
+//					.antMatchers("/api/**").access("hasRole('ADMIN') and hasRole('USER')")
+//					.anyRequest().authenticated()
+//					.and().csrf().disable().httpBasic();
+			 //@formatter:on
+			// @formatter:off back up
 			http.csrf().csrfTokenRepository(csrfTokenRepository());
 			http.requestMatcher(new OAuth2RequestedMatcher()).authorizeRequests()
-					.antMatchers(HttpMethod.OPTIONS, "/springOauth/**","/oauth/**").permitAll().anyRequest()
-					.authenticated().and().csrf().disable().httpBasic();
+			.antMatchers("/api/**").authenticated()
+			.antMatchers("/springOauth/**","/oauth/**").permitAll()
+			.anyRequest().authenticated()
+			.and().csrf().disable().httpBasic();
 			// @formatter:on
 		}
 
@@ -95,6 +106,7 @@ public class OAuth2ServerConfiguration {
 		/**
 		 * 定义一个oauth2的请求匹配器
 		 */
+		@SuppressWarnings("unused")
 		private static class OAuth2RequestedMatcher implements RequestMatcher {
 			@Override
 			public boolean matches(HttpServletRequest request) {

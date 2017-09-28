@@ -11,6 +11,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/2.7.0/vue-router.min.js"></script>
     <script type="text/javascript" src='http://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.1.9/vue-resource.min.js'></script>
 	<title>Authorization Code</title>
+	<meta name="_csrf" content="${_csrf.token}"/>  
+	<meta name="_csrf_header" content="${_csrf.headerName}"/>
 </head>
 <body>
 	<div class="container">
@@ -18,7 +20,7 @@
 			<h2>Authorization Code</h2>
 		</div>
 		<div class="panel panel-body">
-			<form  method="post">
+			<form action="${request.contextPath}/oauth/authorize"  method="post">
 				<div class="form-group">
 					<label for="clientId" class="col-sm-2 control-label">ClientId</label>
 					<div class="col-sm-10">
@@ -39,19 +41,20 @@
 				</div>
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10">
-						<button type="button" class="btn btn-primary" id="subBtn">Go</button>
+						<button type="submit" class="btn btn-primary" id="subBtn">Go</button>
 					</div>
 				</div>
+				<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
+				<input id="oauthUrl" type="hidden" value="${oauthUrl}"> 
 			</form>
-			<input id="oauthUrl" type="hidden" value="${oauthUrl}"> 
 		</div>
 	</div>
 </body>
 <script type="text/javascript">
 	$(function(){
-		$("#subBtn").click(function(){
-			onSubmit();
-		});
+// 		$("#subBtn").click(function(){
+// 			onSubmit();
+// 		});
 		
 	});
 
@@ -79,20 +82,6 @@
 		//重定向到这个指定的页面
 		window.location.href= redirectUrl;
 	}
-	
-// 	function getOauthAuthorizeUrl(){
-// 		$.ajax({
-// 			type:'POST',
-// 			url:'${request.contextPath}/springAuth/oauthAuthorizeUrl',
-// 			dataType:'json',
-// 			data:{},
-// 			async:false,
-// 			success:function(json){
-// 				console.dir(json)
-// 				return json;
-// 			}
-// 		});
-// 	}
 	
 </script>
 </html>
