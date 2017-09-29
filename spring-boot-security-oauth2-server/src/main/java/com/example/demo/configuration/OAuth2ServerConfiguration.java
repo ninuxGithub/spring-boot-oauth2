@@ -78,7 +78,8 @@ public class OAuth2ServerConfiguration {
 		@Override
 		public void configure(HttpSecurity http) throws Exception {
 			// @formatter:off
-//			http.antMatcher("/oauth/authorized").csrf().disable();
+			//http.antMatcher("/oauth/authorized").csrf().disable();//TODO 如果将下面一行代码注释，授权码方式， 隐式授权将无法使用， 
+																	//	反正可用， 但是受保护的资源可用资金访问(棘手的问题)
 			http.csrf().csrfTokenRepository(csrfTokenRepository());
 			http.authorizeRequests()
 					.antMatchers("/springOauth/**","/oauth/**").permitAll()
