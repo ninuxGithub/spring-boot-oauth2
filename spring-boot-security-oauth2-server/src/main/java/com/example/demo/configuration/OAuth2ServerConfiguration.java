@@ -51,16 +51,6 @@ public class OAuth2ServerConfiguration {
 
 		// @Override
 		// public void configure(HttpSecurity http) throws Exception {
-		// // @formatter:off
-		// //
-		// http.authorizeRequests().antMatchers("/index").permitAll().anyRequest().authenticated().and().httpBasic().and().csrf().disable();
-		// //
-		// http.csrf().disable().authorizeRequests().antMatchers("/api/**").authenticated();
-		// // http.authorizeRequests().antMatchers("/index").permitAll();
-		//
-		// http.csrf().disable().authorizeRequests().antMatchers("/index/**").permitAll().antMatchers("/api/**")
-		// .access("hasRole('ADMIN') or hasRole('USER')").anyRequest().authenticated();
-		//
 		// // http
 		// // .csrf().disable()
 		// // .authorizeRequests()
