@@ -15,4 +15,3 @@ spring:
 useJwtTokenStore: false
 spring-oauth-authorize: http://127.0.0.1/oauth/authorize
 spring-oauth-token: http://127.0.0.1/oauth/token
-

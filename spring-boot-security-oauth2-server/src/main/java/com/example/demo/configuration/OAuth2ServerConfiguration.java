@@ -73,8 +73,8 @@ public class OAuth2ServerConfiguration {
 			http.csrf().csrfTokenRepository(csrfTokenRepository());
 			http.authorizeRequests()
 					.antMatchers("/springOauth/**","/oauth/**").permitAll()
-					.antMatchers("/api/**").authenticated()
-					.antMatchers("/api/**").access("hasRole('ADMIN') and hasRole('USER')")
+					//.antMatchers("/api/**").authenticated()
+					//.antMatchers("/api/**").access("hasRole('ADMIN') and hasRole('USER')")
 					.anyRequest().authenticated()
 					.and().csrf().disable().httpBasic();
 			 //@formatter:on

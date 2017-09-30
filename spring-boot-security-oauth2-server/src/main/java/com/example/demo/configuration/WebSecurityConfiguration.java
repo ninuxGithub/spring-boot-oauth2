@@ -77,6 +77,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     
     @Bean
 	public TokenStore tokenStore() {
+    	logger.info("redis 是否配置成功{}", redisConnection!=null?"Yes":"No");
     	logger.info("WebSecurityConfiguration 是否采用  useJwtTokenStore: {}", useJwtTokenStore);
     	if(useJwtTokenStore) {
     		return new JwtTokenStore(jwtAccessTokenConverter());
