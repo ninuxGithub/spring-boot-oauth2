@@ -20,7 +20,6 @@
 			<h2>Authorization Code</h2>
 		</div>
 		<div class="panel panel-body">
-			<form action="${request.contextPath}/oauth/authorize"  method="post">
 				<div class="form-group">
 					<label for="clientId" class="col-sm-2 control-label">ClientId</label>
 					<div class="col-sm-10">
@@ -41,13 +40,79 @@
 				</div>
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10">
-						<button type="submit" class="btn btn-primary" id="subBtn">Go</button>
+						<button type="button"  class="btn btn-primary" id="subBtn">Go</button>
 					</div>
 				</div>
 				<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
 				<input id="oauthUrl" type="hidden" value="${oauthUrl}"> 
-			</form>
 		</div>
 	</div>
 </body>
+<script type="text/javascript">
+	$(function(){
+		$('#submit').click(function(){
+			var requestData = {
+				"client_id":$('#client_id').val(),
+				"response_type":$('#response_type').val(),
+				"redirect_uri":$("#redirect_uri").val(),
+// 				"${_csrf.parameterName}":"${_csrf.token}"
+			};
+			var tokenData = authorizaitonCode(requestData);
+			console.dir(tokenData)
+			
+		});
+	});
+	
+	//在前台获取到token
+	function authorizaitonCode(requestData){
+		var tokenData = null;
+		$.ajax({
+			url:'http://localhost/oauth/authorize',
+			type:'get',
+			dataType:'json',
+			data:requestData,
+			contentType:"application/x-www-form-urlencoded",
+			async:false,
+			beforeSend:function(xhr){  
+				xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
+	        },  
+			error: function(xhr, textStatus) {
+				console.dir("[error]"+ textStatus)
+			},
+			complete: function(xhr, textStatus) {
+				console.dir("[complete]"+ textStatus)
+			},
+			success: function(data){
+				tokenData = data;
+			}
+		});
+		return tokenData;
+	}
+
+	function onSubmit(){
+		var clientId = $("#client_id").val();
+		var redirectUrl = $("#redirect_uri").val();
+		var responseType = $("#response_type").val();
+
+		if(clientId == null || clientId =="null"){
+			alert("请填写clientId")
+			return;
+		}
+		if(redirectUrl == null || redirectUrl =="null"){
+			alert("请填写redirectUrl")
+			return;
+		}
+		if(responseType == null || responseType =="null"){
+			alert("请填写responseType")
+			return;
+		}
+
+		var oauthUrl = $("#oauthUrl").val();
+		var redirectUrl = oauthUrl+"?response_type=code&client_id="+clientId+"&redirect_uri="+redirectUrl;
+		console.dir(redirectUrl)
+		//重定向到这个指定的页面
+		window.location.href= redirectUrl;
+	}
+	
+</script>
 </html>

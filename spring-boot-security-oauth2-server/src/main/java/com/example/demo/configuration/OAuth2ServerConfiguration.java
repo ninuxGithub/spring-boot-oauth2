@@ -56,9 +56,8 @@ public class OAuth2ServerConfiguration {
 			//===================================================方法二
 			http.csrf().csrfTokenRepository(csrfTokenRepository());
 			http.authorizeRequests()
-			.antMatchers("/springOauth/**","/oauth/**").permitAll()
-			.anyRequest().authenticated()
-			.and().csrf().disable().httpBasic();
+			.antMatchers("/springOauth/**","/oauth/**","/login").permitAll()
+			.anyRequest().authenticated().and()/*.csrf().disable()*/.httpBasic();
 			
 			//===================================================方法三
 //			http.csrf().csrfTokenRepository(csrfTokenRepository());

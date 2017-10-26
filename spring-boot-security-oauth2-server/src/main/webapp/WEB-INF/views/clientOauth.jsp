@@ -46,6 +46,7 @@
 						<button type="submit" class="btn btn-primary">Go</button>
 					</div>
 				</div>
+				<!-- 可以不需要_csrf -->
 				<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
 			</form>
 		</div>

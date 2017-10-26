@@ -166,6 +166,17 @@ http://127.0.0.1/api/users/?access_token=af220974-e93d-4085-aa20-b4b414f01ba6
 
 
 
+### csrf
+	page:
+	<meta name="_csrf" content="${_csrf.token}"/>
+	<meta name="_csrf_header" content="${_csrf.headerName}"/>
+	js:
+	var token = $("meta[name='_csrf']").attr("content");  
+	var header = $("meta[name='_csrf_header']").attr("content");  
+	$(document).ajaxSend(function(e, xhr, options) {  
+	    xhr.setRequestHeader(header, token);  
+	});  
+
 
 
 

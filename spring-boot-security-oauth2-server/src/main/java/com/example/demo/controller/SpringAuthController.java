@@ -34,7 +34,6 @@ public class SpringAuthController extends BaseController {
 
 	@RequestMapping(value = { "authorizationCode" }, method = { RequestMethod.GET, RequestMethod.POST })
 	public ModelAndView authorizationCode(ModelAndView mv) {
-		System.err.println("#######");
 		mv.addObject("oauthUrl", springOauthAuthorize);
 		mv.setViewName("authorizationCode");
 		return mv;
@@ -143,7 +142,7 @@ public class SpringAuthController extends BaseController {
 				if(jsonObject.containsKey("access_token")) {
 					loginStatus = true;
 					String access_token = jsonObject.getString("access_token");
-					System.out.println(access_token);
+					System.err.println("密码登录成功："+ access_token);
 					//如果判断包含access_token 那么就将返回信息保存到session
 					session.setAttribute("passwordAuth", postData);
 				}

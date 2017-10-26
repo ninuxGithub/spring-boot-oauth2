@@ -2,7 +2,7 @@ logging:
   level:
     org.springframework:
       data: info
-      security: info
+      security: ingo
 server:
   port: 80
 spring:

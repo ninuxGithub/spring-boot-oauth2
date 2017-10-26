@@ -7,10 +7,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
     <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.js"></script>
-<!--     <script src="http://cdnjs.cloudflare.com/ajax/libs/vue/1.0.24/vue.min.js"></script> -->
-<!--     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/2.7.0/vue-router.min.js"></script> -->
-<!--     <script type="text/javascript" src='http://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.1.9/vue-resource.min.js'></script> -->
 	<title>Spring-Security-OAuth2.0</title>
+	<meta name="_csrf" content="${_csrf.token}"/>  
+	<meta name="_csrf_header" content="${_csrf.headerName}"/>  
 </head>
 <body>
 <div class="container">
@@ -34,6 +33,9 @@
 </body>
 <script type="text/javascript">
 	$(function(){
+		console.dir("${_csrf.token}")
+		console.dir("${_csrf.parameterName}")
+		console.dir("${_csrf.headerName}")
 		$('#btn').click(function(){
 			var authorization = loadToken();
 			if(authorization==null || authorization=='null'){
@@ -49,11 +51,12 @@
 				async:false,
 				beforeSend:function(xhr){  
 		            xhr.setRequestHeader("Authorization", authorization);
+		            xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
 		        },  
-				error: function(XMLHttpRequest, textStatus) {
+				error: function(xhr, textStatus) {
 					console.dir("[passwordLogin error]"+ textStatus)
 				},
-				complete: function(XMLHttpRequest, textStatus) {
+				complete: function(xhr, textStatus) {
 					console.dir("[passwordLogin complete]"+ textStatus)
 				},
 				success: function(data){
@@ -73,11 +76,12 @@
 				contentType:"application/x-www-form-urlencoded",
 				async:false,
 				beforeSend:function(xhr){  
+					xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
 		        },  
-				error: function(XMLHttpRequest, textStatus) {
+				error: function(xhr, textStatus) {
 					console.dir("[loadToken error]"+ textStatus)
 				},
-				complete: function(XMLHttpRequest, textStatus) {
+				complete: function(xhr, textStatus) {
 					console.dir("[loadToken complete]"+ textStatus)
 				},
 				success: function(data){

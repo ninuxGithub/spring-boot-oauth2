@@ -5,11 +5,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
-<!--     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script> -->
     <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.js"></script>
-<!--     <script src="http://cdnjs.cloudflare.com/ajax/libs/vue/1.0.24/vue.min.js"></script> -->
-<!--     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/2.7.0/vue-router.min.js"></script> -->
-<!--     <script type="text/javascript" src='http://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.1.9/vue-resource.min.js'></script> -->
 	<title>Password Oauth</title>
 	<meta name="_csrf" content="${_csrf.token}"/>  
 	<meta name="_csrf_header" content="${_csrf.headerName}"/>  
@@ -104,14 +100,14 @@
 				data:requestData,
 				contentType:"application/x-www-form-urlencoded",
 				async:false,
-				beforeSend:function(request){  
+				beforeSend:function(xhr){  
 		            console.log(this);  
-		            request.setRequestHeader("access_token", "");
+		            xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
 		        },  
-				error: function(XMLHttpRequest, textStatus) {
+				error: function(xhr, textStatus) {
 					console.dir("[passwordLogin error]"+ textStatus)
 				},
-				complete: function(XMLHttpRequest, textStatus) {
+				complete: function(xhr, textStatus) {
 					console.dir("[passwordLogin complete]"+ textStatus)
 				},
 				success: function(data){
@@ -133,13 +129,13 @@
 				data:requestData,
 				contentType:"application/x-www-form-urlencoded",
 				async:false,
-				beforeSend:function(XMLHttpRequest){  
+				beforeSend:function(xhr){  
 		            console.log(this);  
 		        },  
-				error: function(XMLHttpRequest, textStatus) {
+				error: function(xhr, textStatus) {
 					console.dir("[error]"+ textStatus)
 				},
-				complete: function(XMLHttpRequest, textStatus) {
+				complete: function(xhr, textStatus) {
 					console.dir("[complete]"+ textStatus)
 				},
 				success: function(data){

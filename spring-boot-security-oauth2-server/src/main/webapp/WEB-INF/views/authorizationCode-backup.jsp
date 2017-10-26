@@ -50,4 +50,38 @@
 		</div>
 	</div>
 </body>
+<script type="text/javascript">
+	$(function(){
+// 		$("#subBtn").click(function(){
+// 			onSubmit();
+// 		});
+		
+	});
+
+	function onSubmit(){
+		var clientId = $("#client_id").val();
+		var redirectUrl = $("#redirect_uri").val();
+		var responseType = $("#response_type").val();
+
+		if(clientId == null || clientId =="null"){
+			alert("请填写clientId")
+			return;
+		}
+		if(redirectUrl == null || redirectUrl =="null"){
+			alert("请填写redirectUrl")
+			return;
+		}
+		if(responseType == null || responseType =="null"){
+			alert("请填写responseType")
+			return;
+		}
+
+		var oauthUrl = $("#oauthUrl").val();
+		var redirectUrl = oauthUrl+"?response_type=code&client_id="+clientId+"&redirect_uri="+redirectUrl;
+		console.dir(redirectUrl)
+		//重定向到这个指定的页面
+		window.location.href= redirectUrl;
+	}
+	
+</script>
 </html>
