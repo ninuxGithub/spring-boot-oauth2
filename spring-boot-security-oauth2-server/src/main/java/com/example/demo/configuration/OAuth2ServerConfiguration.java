@@ -49,43 +49,24 @@ public class OAuth2ServerConfiguration {
 			// @formatter:on
 		}
 
-		// @Override
-		// public void configure(HttpSecurity http) throws Exception {
-		// // http
-		// // .csrf().disable()
-		// // .authorizeRequests()
-		// // .antMatchers("/index" ,"/api/**").permitAll()
-		// // .anyRequest().authenticated()
-		// // .and()
-		// // .formLogin()
-		// // .loginPage("/authentication.html")
-		// // .loginProcessingUrl("/login")
-		// // .failureUrl("/authentication.html")
-		// // .permitAll();
-		// // @formatter:on
-		// }
 
 		@Override
 		public void configure(HttpSecurity http) throws Exception {
-			// @formatter:off
-			//http.antMatcher("/oauth/authorized").csrf().disable();//TODO 如果将下面一行代码注释，授权码方式， 隐式授权将无法使用， 
-																	//	反正可用， 但是受保护的资源可用资金访问(棘手的问题)
+			
+			//===================================================方法二
 			http.csrf().csrfTokenRepository(csrfTokenRepository());
 			http.authorizeRequests()
-					.antMatchers("/springOauth/**","/oauth/**").permitAll()
-					//.antMatchers("/api/**").authenticated()
-					//.antMatchers("/api/**").access("hasRole('ADMIN') and hasRole('USER')")
-					.anyRequest().authenticated()
-					.and().csrf().disable().httpBasic();
-			 //@formatter:on
-			// @formatter:off back up
+			.antMatchers("/springOauth/**","/oauth/**").permitAll()
+			.anyRequest().authenticated()
+			.and().csrf().disable().httpBasic();
+			
+			//===================================================方法三
 //			http.csrf().csrfTokenRepository(csrfTokenRepository());
 //			http.requestMatcher(new OAuth2RequestedMatcher()).authorizeRequests()
 //			.antMatchers("/api/**").authenticated()
-//			.antMatchers("/springOauth/**","/oauth/**").permitAll()
+//			.antMatchers("/springOauth/**","/oauth/**","/login").permitAll()
 //			.anyRequest().authenticated()
 //			.and().csrf().disable().httpBasic();
-			// @formatter:on
 		}
 
 		private CsrfTokenRepository csrfTokenRepository() {
