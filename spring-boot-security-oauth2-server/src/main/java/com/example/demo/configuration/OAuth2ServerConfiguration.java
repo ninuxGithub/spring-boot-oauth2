@@ -53,19 +53,23 @@ public class OAuth2ServerConfiguration {
 		@Override
 		public void configure(HttpSecurity http) throws Exception {
 			
-			//===================================================方法二
+			//===================================================
+			//方法二只可以通过密码，客户端两种方式登录，需要携带token
+			//===================================================
 			http.csrf().csrfTokenRepository(csrfTokenRepository());
 			http.authorizeRequests()
 			.antMatchers("/springOauth/**","/oauth/**","/login").permitAll()
 			.anyRequest().authenticated().and()/*.csrf().disable()*/.httpBasic();
 			
-			//===================================================方法三
-//			http.csrf().csrfTokenRepository(csrfTokenRepository());
-//			http.requestMatcher(new OAuth2RequestedMatcher()).authorizeRequests()
-//			.antMatchers("/api/**").authenticated()
-//			.antMatchers("/springOauth/**","/oauth/**","/login").permitAll()
-//			.anyRequest().authenticated()
-//			.and().csrf().disable().httpBasic();
+			//===================================================
+			//方法三采用admin：password登录后可以访问任何页面
+			//===================================================
+			http.csrf().csrfTokenRepository(csrfTokenRepository());
+			http.requestMatcher(new OAuth2RequestedMatcher()).authorizeRequests()
+			.antMatchers("/api/**").authenticated()
+			.antMatchers("/springOauth/**","/oauth/**","/login").permitAll()
+			.anyRequest().authenticated()
+			.and().csrf().disable().httpBasic();
 		}
 
 		private CsrfTokenRepository csrfTokenRepository() {
