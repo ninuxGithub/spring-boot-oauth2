@@ -29,7 +29,7 @@ public class PrivateResourceController {
 	 * @return
 	 */
 	@PreAuthorize(value="hasRole('admin')")
-	@RequestMapping(value="/api/users/", method = RequestMethod.GET)
+	@RequestMapping(value="/api/users/", method = {RequestMethod.GET,RequestMethod.POST})
 	@ResponseBody
 	public List<User> findAllUsers(){
 		return userRepository.findAll();

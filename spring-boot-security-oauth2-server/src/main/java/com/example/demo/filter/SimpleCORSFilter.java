@@ -1,4 +1,5 @@
 package com.example.demo.filter;
+
 import java.io.IOException;
 
 import javax.servlet.Filter;
@@ -21,7 +22,8 @@ import org.springframework.stereotype.Component;
 public class SimpleCORSFilter implements Filter {
 	private static final Logger logger = LoggerFactory.getLogger(SimpleCORSFilter.class);
 
-	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
+	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
+			throws IOException, ServletException {
 		HttpServletResponse response = (HttpServletResponse) res;
 		HttpServletRequest request = (HttpServletRequest) req;
 		String originHeader = request.getHeader("Origin");
@@ -30,7 +32,6 @@ public class SimpleCORSFilter implements Filter {
 		response.setHeader("Access-Control-Allow-Methods", "*");
 		response.setHeader("Access-Control-Max-Age", "3600");
 		response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Key, Authorization");
-
 		if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
 			response.setStatus(HttpServletResponse.SC_OK);
 		} else {

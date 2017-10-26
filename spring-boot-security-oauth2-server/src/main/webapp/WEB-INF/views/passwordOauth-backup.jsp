@@ -5,11 +5,11 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
-<!--     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script> -->
-    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.js"></script>
-<!--     <script src="http://cdnjs.cloudflare.com/ajax/libs/vue/1.0.24/vue.min.js"></script> -->
-<!--     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/2.7.0/vue-router.min.js"></script> -->
-<!--     <script type="text/javascript" src='http://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.1.9/vue-resource.min.js'></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<!--     <script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script> -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/vue/1.0.24/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/2.7.0/vue-router.min.js"></script>
+    <script type="text/javascript" src='http://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.1.9/vue-resource.min.js'></script>
 	<title>Password Oauth</title>
 	<meta name="_csrf" content="${_csrf.token}"/>  
 	<meta name="_csrf_header" content="${_csrf.headerName}"/>  
@@ -20,6 +20,7 @@
 			<h2>密码的方式获取token</h2>
 		</div>
 		<div class="panel panel-body">
+<!-- 			<form> -->
 				<div class="form-group">
 					<label for="clientId" class="col-sm-2 control-label">ClientId</label>
 					<div class="col-sm-10">
@@ -58,96 +59,50 @@
 					</div>
 				</div>
 				<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
+<!-- 			</form> -->
 		</div>
 	</div>
 </body>
 <script type="text/javascript">
+/* <![CDATA[ */
 	$(function(){
 		$('#submit').click(function(){
-			var requestData = {
-				"client_id":$('#clientId').val(),
-				"client_secret":$('#clientSecret').val(),
-				"grant_type":$('#grantType').val(),
-				"username":$('#username').val(),
-				"password":$('#password').val()
-			};
-			
-			//ajax 获取token
-// 			var tokenData = passwordToken(requestData);
-// 			var token = tokenData['access_token'];
-// 			console.dir(token)
-// 			alert(token)
-			
-// 			var loginData = passwordLogin(requestData);
-// 			console.dir(loginData.postData)
-// 			var loginJson = JSON.parse(loginData.postData);
-// 			console.dir(loginJson)
-// 			console.dir(loginJson['access_token'])
+// 			var key = "${key}"
+// 			var o = "${XSRF-TOKEN}"
+// 			$.cookie('the_cookie', 'the_value'); 
+// 			$.cookie('the_cookie', 'the_value', { expires: 7 }); 
+// 			$.cookie('the_cookie', 'the_value', { expires: 7, path: '/' }); 
+// 			$.cookie('the_cookie'); // cookie存在 => 'the_value' 
+// 			$.cookie('not_existing'); // cookie不存在 => null 
+// 			$.cookie('the_cookie', null); 
 
-			//获取登录状态
-			var loginData = passwordLogin(requestData);
-			var loginStatus = loginData.loginStatus;
-			console.dir(loginStatus)
-			if(loginStatus){
-				window.location.href = "http://localhost/springOauth/index";
-			}else{
-				alert("登陆失败")
-			}
+// 			var xsrfToken = $.cookie("XSRF-TOKEN");
+			
+			$.ajax({
+				url:'${pageContext.request.contextPath}/oauth/token',
+				method:'post',
+				dataType:'json',
+				data:{
+					"client_id":$('#clientId').val(),
+					"client_secret":$('#clientSecret').val(),
+					"grantType":$('#grantType').val(),
+					"username":$('#username').val(),
+					"password":$('#password').val(),
+// 					"XSRF-TOKEN":xsrfToken
+				},
+				success:function(data){
+					console.dir(data)
+				}/* ,
+				error: function(XMLHttpRequest, textStatus, errorThrown) {
+					
+				},
+				complete: function(XMLHttpRequest, textStatus) {
+					
+				} */
+			});
 		});
-		
-		function passwordLogin(requestData){
-			var loginData=null;
-			$.ajax({
-				url:'http://localhost/springOauth/passwordLogin',
-				type:'POST',
-				dataType:'json',
-				data:requestData,
-				contentType:"application/x-www-form-urlencoded",
-				async:false,
-				beforeSend:function(request){  
-		            console.log(this);  
-		            request.setRequestHeader("access_token", "");
-		        },  
-				error: function(XMLHttpRequest, textStatus) {
-					console.dir("[passwordLogin error]"+ textStatus)
-				},
-				complete: function(XMLHttpRequest, textStatus) {
-					console.dir("[passwordLogin complete]"+ textStatus)
-				},
-				success: function(data){
-					loginData = data;
-				}
-			});
-			return loginData;
-		}
-		
-		
-		
-		//在前台获取到token
-		function passwordToken(requestData){
-			var tokenData = null;
-			$.ajax({
-				url:'http://localhost/oauth/token',
-				type:'POST',
-				dataType:'json',
-				data:requestData,
-				contentType:"application/x-www-form-urlencoded",
-				async:false,
-				beforeSend:function(XMLHttpRequest){  
-		            console.log(this);  
-		        },  
-				error: function(XMLHttpRequest, textStatus) {
-					console.dir("[error]"+ textStatus)
-				},
-				complete: function(XMLHttpRequest, textStatus) {
-					console.dir("[complete]"+ textStatus)
-				},
-				success: function(data){
-					tokenData = data;
-				}
-			});
-			return tokenData;
-		}
 	});
+/* 	]]> */
 </script>
+
 </html>

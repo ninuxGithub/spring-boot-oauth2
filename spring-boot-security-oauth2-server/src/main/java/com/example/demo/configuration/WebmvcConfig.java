@@ -12,8 +12,11 @@ import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+import com.example.demo.interceptor.TokenInterceptor;
 
 @Configuration
 public class WebmvcConfig extends WebMvcConfigurerAdapter {
@@ -32,16 +35,22 @@ public class WebmvcConfig extends WebMvcConfigurerAdapter {
 		super.addResourceHandlers(registry);
 	}
 
-	
 	@Bean
-    public HttpMessageConverters customConverters() {
-		StringHttpMessageConverter stringHttpMessageConverter = new StringHttpMessageConverter(Charset.forName("UTF-8"));
+	public HttpMessageConverters customConverters() {
+		StringHttpMessageConverter stringHttpMessageConverter = new StringHttpMessageConverter(
+				Charset.forName("UTF-8"));
 		MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
 		List<MediaType> types = new LinkedList<>();
 		types.add(MediaType.ALL);
 		converter.setSupportedMediaTypes(types);
-		//converter.setDefaultCharset(Charset.forName("UTF-8"));
+		// converter.setDefaultCharset(Charset.forName("UTF-8"));
 		return new HttpMessageConverters(converter, stringHttpMessageConverter);
-    }
+	}
+
+	@Override
+	public void addInterceptors(InterceptorRegistry  registry) {
+		System.err.println("注册拦截器");
+		registry.addInterceptor(new TokenInterceptor()).addPathPatterns("/**");
+	}
 
 }

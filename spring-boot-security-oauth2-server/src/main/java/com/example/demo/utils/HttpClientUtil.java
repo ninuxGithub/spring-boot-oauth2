@@ -215,6 +215,7 @@ public class HttpClientUtil {
 
 		HttpPost httpPost = new HttpPost(reqURL);
 		httpPost.addHeader("Cache-Control", "no-cache");
+		httpPost.addHeader("Content-Type", "application/x-www-form-urlencoded");
 		try {
 			RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(connectTimeout)
 					.setConnectTimeout(connectTimeout).setConnectionRequestTimeout(connectTimeout).build();
