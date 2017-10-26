@@ -137,7 +137,7 @@ public class HttpClientUtil {
 		return "";
 	}
 
-	public static String invokeGet(String url, Map<String, String> params, String encode, int connectTimeout,
+	public static String sendGet(String url, Map<String, String> params, String encode, int connectTimeout,
 			int soTimeout) {
 		String responseString = null;
 		RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(connectTimeout)
@@ -188,8 +188,7 @@ public class HttpClientUtil {
 					response.close();
 				}
 			}
-			logger.info(
-					String.format("[HttpUtils Get]Debug url:%s , response string %s:", sb.toString(), responseString));
+			logger.info(String.format("[HttpUtils Get]Debug url:%s , response string %s:", sb.toString(), responseString));
 		} catch (SocketTimeoutException e) {
 			logger.error(String.format("[HttpUtils Get]invoke get timout error, url:%s", sb.toString()), e);
 			return responseString;
@@ -210,7 +209,7 @@ public class HttpClientUtil {
 	 * @param params
 	 * @return
 	 */
-	public static String connectPostHttps(String reqURL, Map<String, String> params) {
+	public static String sendPost(String reqURL, Map<String, String> params) {
 
 		String responseContent = null;
 
@@ -245,7 +244,7 @@ public class HttpClientUtil {
 					response.close();
 				}
 			}
-			logger.info("requestURI : " + httpPost.getURI() + ", responseContent: " + responseContent);
+			//logger.info("requestURI : " + httpPost.getURI() + ", responseContent: " + responseContent);
 		} catch (ClientProtocolException e) {
 			logger.error("ClientProtocolException", e);
 		} catch (IOException e) {

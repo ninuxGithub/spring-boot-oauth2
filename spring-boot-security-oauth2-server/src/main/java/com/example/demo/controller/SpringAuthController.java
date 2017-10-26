@@ -86,7 +86,7 @@ public class SpringAuthController extends BaseController {
 		
 		
 		try {
-			String postData = HttpClientUtil.connectPostHttps(springOauthToken, params);
+			String postData = HttpClientUtil.sendPost(springOauthToken, params);
 			if (StringUtils.isNotBlank(postData)) {
 				logger.info(postData);
 				return postData;
