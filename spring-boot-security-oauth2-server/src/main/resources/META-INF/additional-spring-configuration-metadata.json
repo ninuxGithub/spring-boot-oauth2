@@ -1,0 +1,17 @@
+{"properties": [
+  {
+    "name": "spring-oauth-authorize",
+    "type": "java.lang.String",
+    "description": "A description for 'spring-oauth-authorize'"
+  },
+  {
+    "name": "use-jwt-token-store",
+    "type": "java.lang.String",
+    "description": "A description for 'use-jwt-token-store'"
+  },
+  {
+    "name": "spring-oauth-token",
+    "type": "java.lang.String",
+    "description": "A description for 'spring-oauth-token'"
+  }
+]}
