@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -36,21 +35,32 @@
 		console.dir("${_csrf.token}")
 		console.dir("${_csrf.parameterName}")
 		console.dir("${_csrf.headerName}")
+		
+		//********************重要的点**************************
+		//直接通过url请求受保护的资源和通过ajax访问保护的资源的根本不的共同点：就是
+		//Cookie: JSESSIONID=F595061A64FD16E56C20B31644B0DB95
+		//拥有同一个jsessionid 
+		//如果是ajax则必须提供X-CSRF-TOKEN
+		
+		
 		$('#btn').click(function(){
-			var authorization = loadToken();
+			/* var authorization = loadToken();
 			if(authorization==null || authorization=='null'){
 				return;
-			}
+			} */
 			
 			$.ajax({
 				url:'${request.contextPath}/api/users/',
 				type:'POST',
 				dataType:'json',
 				data:{},
-				contentType:"application/x-www-form-urlencoded",
+				//contentType:"application/x-www-form-urlencoded",
 				async:false,
 				beforeSend:function(xhr){  
-		            xhr.setRequestHeader("Authorization", authorization);
+					//如果是ajax请求， 其实是不需要Authorization
+		            //xhr.setRequestHeader("Authorization", authorization);
+					
+					//需要页面的csrf token X-CSRF-TOKEN:20ac2c03-5036-4805-af2a-52e7b7a94bf9
 		            xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
 		        },  
 				error: function(xhr, textStatus) {

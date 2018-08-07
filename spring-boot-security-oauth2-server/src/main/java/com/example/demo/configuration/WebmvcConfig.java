@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.web.HttpMessageConverters;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +22,7 @@ import com.example.demo.interceptor.TokenInterceptor;
 
 @Configuration
 public class WebmvcConfig extends WebMvcConfigurerAdapter {
+	private static final Logger logger = LoggerFactory.getLogger(WebmvcConfig.class);
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -49,7 +52,7 @@ public class WebmvcConfig extends WebMvcConfigurerAdapter {
 
 	@Override
 	public void addInterceptors(InterceptorRegistry  registry) {
-		System.err.println("注册拦截器");
+		logger.info("注册拦截器");
 		registry.addInterceptor(new TokenInterceptor()).addPathPatterns("/**");
 	}
 

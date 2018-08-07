@@ -13,7 +13,8 @@ public class TokenInterceptor implements HandlerInterceptor{
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		logger.info("---------------------开始进入请求地址拦截----------------------------");  
-		System.out.println("preHandle "+request.getSession().getAttribute("passwordAuth"));
+		//passwordAuth并不是必须的
+		//System.out.println("preHandle "+request.getSession().getAttribute("passwordAuth"));
 		/*Enumeration<String> headerNames = request.getHeaderNames();
 		while(headerNames.hasMoreElements()) {
 			String headerName = headerNames.nextElement();
