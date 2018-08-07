@@ -44,7 +44,8 @@ public class JsonUtil {
         }
     }
 
-    public static <T> List<T> readStringToList(String content, Class<T> clazz) {
+    @SuppressWarnings("deprecation")
+	public static <T> List<T> readStringToList(String content, Class<T> clazz) {
         try {
             List<T> result = mapper.readValue(content, mapper.getTypeFactory().constructParametricType(ArrayList.class, clazz));
             return result;

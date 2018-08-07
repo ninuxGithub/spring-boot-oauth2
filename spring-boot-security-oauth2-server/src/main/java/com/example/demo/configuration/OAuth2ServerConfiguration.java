@@ -81,7 +81,6 @@ public class OAuth2ServerConfiguration {
 		/**
 		 * 定义一个oauth2的请求匹配器
 		 */
-		@SuppressWarnings("unused")
 		private static class OAuth2RequestedMatcher implements RequestMatcher {
 			@Override
 			public boolean matches(HttpServletRequest request) {
