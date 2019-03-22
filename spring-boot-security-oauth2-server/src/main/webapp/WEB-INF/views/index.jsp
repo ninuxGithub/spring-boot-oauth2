@@ -7,8 +7,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
     <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.js"></script>
 	<title>Spring-Security-OAuth2.0</title>
-	<meta name="_csrf" content="${_csrf.token}"/>  
-	<meta name="_csrf_header" content="${_csrf.headerName}"/>  
+	<meta name="_csrf" content="${_csrf.token}"/>
+	<meta name="_csrf_header" content="${_csrf.headerName}"/>
 </head>
 <body>
 <div class="container">

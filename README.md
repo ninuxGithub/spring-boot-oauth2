@@ -9,6 +9,9 @@ client_auth_mode	oauth2-resource	e10adc3949ba59abbe56e057f20f883e	read,write	cli
 password_auth_mode	oauth2-resource	e10adc3949ba59abbe56e057f20f883e	read,write	refresh_token,password,authorization_code,implicit	https://www.baidu.com	ADMIN	1800	600		
 
 
+## intellij idea运行
+    如果项目是webapp目录里面包含jsp 启动项目jsp是访问不到的， 解决办法：https://www.cnblogs.com/sxdcgaq8080/p/7712874.html
+
 
 ## 获取token一共分为4种：
 		1. 客户端授权 grant_type=client_credentials

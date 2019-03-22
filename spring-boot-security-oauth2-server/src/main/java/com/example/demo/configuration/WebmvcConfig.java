@@ -52,7 +52,6 @@ public class WebmvcConfig extends WebMvcConfigurerAdapter {
 
 	@Override
 	public void addInterceptors(InterceptorRegistry  registry) {
-		logger.info("注册拦截器");
 		registry.addInterceptor(new TokenInterceptor()).addPathPatterns("/**");
 	}
 

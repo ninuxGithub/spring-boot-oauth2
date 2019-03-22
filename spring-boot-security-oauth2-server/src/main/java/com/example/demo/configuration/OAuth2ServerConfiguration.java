@@ -56,20 +56,28 @@ public class OAuth2ServerConfiguration {
 			//===================================================
 			//方法二只可以通过密码，客户端两种方式登录，需要携带token
 			//===================================================
-			http.csrf().csrfTokenRepository(csrfTokenRepository());
-			http.authorizeRequests()
-			.antMatchers("/springOauth/**","/oauth/**","/login").permitAll()
-			.anyRequest().authenticated().and()/*.csrf().disable()*/.httpBasic();
+//			http.csrf().csrfTokenRepository(csrfTokenRepository());
+//			http.authorizeRequests()
+//			.antMatchers("/index","/springOauth/**","/oauth/**","/login").permitAll()
+//			.anyRequest().authenticated().and()/*.csrf().disable()*/.httpBasic();
 			
 			//===================================================
 			//方法三采用admin：password登录后可以访问任何页面
 			//===================================================
+
 			http.csrf().csrfTokenRepository(csrfTokenRepository());
 			http.requestMatcher(new OAuth2RequestedMatcher()).authorizeRequests()
-			.antMatchers("/api/**").authenticated()
-			.antMatchers("/springOauth/**","/oauth/**","/login").permitAll()
+			//.antMatchers("/api/**").authenticated()
+			.antMatchers("/index/**","/springOauth/**","/oauth/**","/login").permitAll()
 			.anyRequest().authenticated()
 			.and().csrf().disable().httpBasic();
+
+			// 表单登录
+			http.formLogin()
+					// 登录页面
+					.loginPage("/auth/login")
+					// 登录处理url
+					.loginProcessingUrl("/auth/authorize");
 		}
 
 		private CsrfTokenRepository csrfTokenRepository() {
@@ -84,6 +92,10 @@ public class OAuth2ServerConfiguration {
 		private static class OAuth2RequestedMatcher implements RequestMatcher {
 			@Override
 			public boolean matches(HttpServletRequest request) {
+				String requestURI = request.getRequestURI();
+				if (requestURI.equals("/index")){
+					return true;
+				}
 				String auth = request.getHeader("Authorization");
 				// 判断来源请求是否包含oauth2授权信息,这里授权信息来源可能是头部的Authorization值以Bearer开头
 				// 或者是请求参数中包含access_token参数,满足其中一个则匹配成功
@@ -131,28 +143,7 @@ public class OAuth2ServerConfiguration {
 
 		@Override
 		public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-			// @formatter:off
-
-			clients.jdbc(dataSource);// 1
-			/**
-			 * 如果采用jdbc() 那么需要在数据库指定token的有效时间
-			 * 
-			 * 如果是inMemory() 采用属性来指定token的有效时间
-			 */
-			// customClientDetailsService.setPasswordEncoder(MD5PasswodEncoder.getInstance());
-			// clients.withClientDetails(customClientDetailsService);//2
-			// clients
-			// .inMemory()
-			// .withClient("clientapp")
-			// .authorizedGrantTypes("password","refresh_token","client_credentials")
-			// .authorities("USER")
-			// .scopes("read", "write")
-			// .resourceIds(RESOURCE_ID)
-			// .secret("123456")
-			// .accessTokenValiditySeconds(1800)
-			// .refreshTokenValiditySeconds(600);//3
-
-			// @formatter:on
+			clients.jdbc(dataSource);
 		}
 
 		@Override
