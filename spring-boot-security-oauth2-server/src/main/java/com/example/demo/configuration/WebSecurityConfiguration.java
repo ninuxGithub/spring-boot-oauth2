@@ -54,20 +54,11 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().csrfTokenRepository(csrfTokenRepository());
-        http.requestMatcher(new OAuth2RequestedMatcher()).authorizeRequests()
-                //.antMatchers("/api/**").authenticated().anyRequest().hasAnyRole("ADMIN")
-                .antMatchers( "/springOauth/**", "/oauth/**", "/login").permitAll()
+        http/*.requestMatcher(new OAuth2RequestedMatcher())*/.authorizeRequests()
+                .antMatchers("/api/**").authenticated()
+                .antMatchers("/auth/login", "/auth/authorize","/oauth/authorize").permitAll()
                 .anyRequest().authenticated()
                 .and().csrf().disable().httpBasic();
-
-        http.requestMatchers()
-                .antMatchers("/auth/login", "/auth/authorize", "/oauth/authorize")
-                .and()
-                .authorizeRequests()
-                .antMatchers("/auth/login", "/auth/authorize")
-                .permitAll()
-                .anyRequest()
-                .authenticated();
 
         // 表单登录
         http.formLogin()

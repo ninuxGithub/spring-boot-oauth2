@@ -67,17 +67,10 @@ public class OAuth2ServerConfiguration {
 
 			http.csrf().csrfTokenRepository(csrfTokenRepository());
 			http.requestMatcher(new OAuth2RequestedMatcher()).authorizeRequests()
-			//.antMatchers("/api/**").authenticated()
+			.antMatchers("/api/**").authenticated()
 			.antMatchers("/index/**","/springOauth/**","/oauth/**","/login").permitAll()
 			.anyRequest().authenticated()
 			.and().csrf().disable().httpBasic();
-
-			// 表单登录
-			http.formLogin()
-					// 登录页面
-					.loginPage("/auth/login")
-					// 登录处理url
-					.loginProcessingUrl("/auth/authorize");
 		}
 
 		private CsrfTokenRepository csrfTokenRepository() {
@@ -97,8 +90,6 @@ public class OAuth2ServerConfiguration {
 					return true;
 				}
 				String auth = request.getHeader("Authorization");
-				// 判断来源请求是否包含oauth2授权信息,这里授权信息来源可能是头部的Authorization值以Bearer开头
-				// 或者是请求参数中包含access_token参数,满足其中一个则匹配成功
 				boolean haveOauth2Token = (auth != null) && auth.startsWith("Bearer");
 				boolean haveAccessToken = request.getParameter("access_token") != null;
 				return haveOauth2Token || haveAccessToken;
@@ -133,7 +124,8 @@ public class OAuth2ServerConfiguration {
 		@Override
 		public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 			// @formatter:off
-			endpoints.tokenStore(tokenStore).authenticationManager(authenticationManager)
+			endpoints.tokenStore(tokenStore)
+					.authenticationManager(authenticationManager)
 					.userDetailsService(userDetailsService);
 			if (useJwtTokenStore) {
 				endpoints.accessTokenConverter(jwtAccessTokenConverter);
