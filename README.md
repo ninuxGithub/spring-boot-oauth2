@@ -116,7 +116,9 @@ http://127.0.0.1/api/users/?access_token=af220974-e93d-4085-aa20-b4b414f01ba6
 
 
 ### 对特定页面放行（不经过授权）
-我们的案例目前使用的是WebSecurityConfigurerAdapter中默认的HttpSecurity对象的配置，该配置是要求应用中所有url的访问都需要进行验证。我们也可以自定义哪些URL需要权限验证，哪些不需要。只需要在我们的SecurityConfig类中覆      写configure(HttpSecurity http)方法即可。     
+我们的案例目前使用的是WebSecurityConfigurerAdapter中默认的HttpSecurity对象的配置，该配置是要求应用中所有url的访问都需要进行验证。
+我们也可以自定义哪些URL需要权限验证，哪些不需要。只需要在我们的SecurityConfig类中覆      
+写configure(HttpSecurity http)方法即可。     
 
 		protected void configure(HttpSecurity http ) throws Exception {  
 		             http.authorizeRequests()            1                                                       
@@ -147,18 +149,25 @@ http://127.0.0.1/api/users/?access_token=af220974-e93d-4085-aa20-b4b414f01ba6
 	
 #### oauth2 须知
 
-	所有获取令牌的请求都将会在Spring MVC controller endpoints中进行处理，并且访问受保护的资源服务的处理流程将会放在标准的Spring Security请求过滤器中(filters)。
+	所有获取令牌的请求都将会在Spring MVC controller endpoints中进行处理，
+	并且访问受保护的资源服务的处理流程将会放在标准的Spring Security请求过滤器中(filters)。
 	 
 	下面是配置一个授权服务必须要实现的endpoints：   
 	AuthorizationEndpoint：用来作为请求者获得授权的服务，默认的URL是/oauth/authorize.
 	TokenEndpoint：用来作为请求者获得令牌（Token）的服务，默认的URL是/oauth/token.
 	 
 	下面是配置一个资源服务必须要实现的过滤器：
-	OAuth2AuthenticationProcessingFilter：用来作为认证令牌（Token）的一个处理流程过滤器。只有当过滤器通过之后，请求者才能获得受保护的资源。
+	OAuth2AuthenticationProcessingFilter：用来作为认证令牌（Token）的一个处理流程过滤器。只有当过滤器通过之后，
+	请求者才能获得受保护的资源。
 	
-	配置授权服务器时,您必须考虑的grant类型，从终端用户那，客户端会使用获取到的访问令牌(如授权代码、用户凭证、刷新令牌)。服务器的配置是用于提供一些实现，像客户端细节服务和令牌服务还有启用或禁用某些方面的全球机制。但是请注意,每个客户端可以专门配置权限能够使用某些授权机制和访问授权。即仅仅因为您的提供者配置为支持“客户证书”grant类型,并不意味着一个特定的客户端被授权使用grant类型。
+	配置授权服务器时,您必须考虑的grant类型，从终端用户那，客户端会使用获取到的访问令牌(如授权代码、用户凭证、刷新令牌)。
+	服务器的配置是用于提供一些实现，像客户端细节服务和令牌服务还有启用或禁用某些方面的全球机制。但是请注意,每个客户端可以
+	专门配置权限能够使用某些授权机制和访问授权。即仅仅因为您的提供者配置为支持“客户证书”grant类型,并不意味着一
+	个特定的客户端被授权使用grant类型。
 
-	@EnableAuthorizationServer 注释用于配置 OAuth 2.0 授权服务器机制，加上任意一个@Beans 去实现 AuthorizationServerConfigurer (这是一个hander适配器实现的空方法)。以下功能委托给由 spring 创造的独立 configurers 而且传递到 AuthorizationServerConfigurer：
+	@EnableAuthorizationServer 注释用于配置 OAuth 2.0 授权服务器机制，加上任意一个@Beans 去实现 AuthorizationServerConfigurer
+	 (这是一个hander适配器实现的空方法)。以下功能委托给由 spring 创造的独立 
+	 configurers 而且传递到 AuthorizationServerConfigurer：
 	
 	ClientDetailsServiceConfigurer:这个configurer定义了客户端细节服务。客户详细信息可以被初始化,或者你可以参考现有的商店。
 	
