@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -72,9 +73,9 @@
         <input type="hidden" name="user_oauth_approval" value="true">
         <input type="hidden" name="_csrf" value="${_csrf.getToken()}"/>
 
-        <div th:each="item:${scopes}">
-            <input type="radio" th:name="'scope.'+${item}" value="true" hidden="hidden" checked="checked"/>
-        </div>
+        <c:forEach var="scope" items="${scopes}">
+            <input type="radio" name="${scope}" value="true" hidden="hidden" checked="checked"/>
+        </c:forEach>
 
         <button class="btn" type="submit"> 同意/授权</button>
 

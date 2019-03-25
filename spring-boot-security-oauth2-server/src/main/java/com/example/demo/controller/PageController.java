@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 @Controller
-//@SessionAttributes("authorizationRequest")
 public class PageController {
 
 	private static final Logger logger = LoggerFactory.getLogger(PageController.class);
@@ -24,17 +23,5 @@ public class PageController {
 		return "index";
 	}
 
-	/*@RequestMapping(value = { "/auth/login" }, method = RequestMethod.GET)
-	public String login() {
-		return "login";
-	}
 
-	@RequestMapping("/oauth/confirm_access")
-	public ModelAndView getAccessConfirmation(Map<String, Object> model, HttpServletRequest request) throws Exception {
-		AuthorizationRequest authorizationRequest = (AuthorizationRequest) model.get("authorizationRequest");
-		ModelAndView view = new ModelAndView();
-		view.setViewName("grant");
-		view.addObject("clientId", authorizationRequest.getClientId());
-		return view;
-	}*/
 }

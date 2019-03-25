@@ -22,6 +22,7 @@ import org.springframework.stereotype.Component;
 public class SimpleCORSFilter implements Filter {
 	private static final Logger logger = LoggerFactory.getLogger(SimpleCORSFilter.class);
 
+	@Override
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
 			throws IOException, ServletException {
 		HttpServletResponse response = (HttpServletResponse) res;
@@ -40,10 +41,12 @@ public class SimpleCORSFilter implements Filter {
 
 	}
 
+    @Override
 	public void init(FilterConfig filterConfig) {
 		logger.info("===>init SimpleCORSFilter....");
 	}
 
+    @Override
 	public void destroy() {
 	}
 
