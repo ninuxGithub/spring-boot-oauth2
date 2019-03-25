@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 @Controller
-@SessionAttributes("authorizationRequest")
+//@SessionAttributes("authorizationRequest")
 public class PageController {
 
 	private static final Logger logger = LoggerFactory.getLogger(PageController.class);
