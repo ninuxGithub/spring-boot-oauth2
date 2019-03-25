@@ -90,6 +90,7 @@ public class OAuth2ServerConfiguration {
             http.authorizeRequests()
                     .antMatchers("/api/**").authenticated()
                     .antMatchers("/auth/login", "/auth/authorize", "/oauth/authorize").permitAll()
+                    .antMatchers("/auth/login", "/auth/authorize", "/oauth/authorize","/oauth/check_token").permitAll()
                     .anyRequest().authenticated()
                     .and()
                     .formLogin().loginPage("/auth/login").loginProcessingUrl("/auth/authorize")

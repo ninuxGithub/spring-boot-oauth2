@@ -24,7 +24,9 @@ public class AuthController {
 		return "login";
 	}
 
-	@RequestMapping("/oauth/confirm_access")
+
+	//http://localhost/oauth/authorize?response_type=token&client_id=password_auth_mode&redirect_uri=http://localhost/springOauth/authorizationCodePage
+	@RequestMapping(value = "/oauth/confirm_access", method = RequestMethod.GET)
 	public ModelAndView getAccessConfirmation(Map<String, Object> model, HttpServletRequest request) throws Exception {
 		AuthorizationRequest authorizationRequest = (AuthorizationRequest) model.get("authorizationRequest");
 		ModelAndView view = new ModelAndView();

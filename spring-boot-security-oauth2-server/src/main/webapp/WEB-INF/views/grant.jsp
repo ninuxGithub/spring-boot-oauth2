@@ -72,9 +72,8 @@
 
         <input type="hidden" name="user_oauth_approval" value="true">
         <input type="hidden" name="_csrf" value="${_csrf.getToken()}"/>
-
         <c:forEach var="scope" items="${scopes}">
-            <input type="radio" name="${scope}" value="true" hidden="hidden" checked="checked"/>
+            <input type="radio" name="${scope.key}" value="true" hidden="hidden" checked="checked"/>
         </c:forEach>
 
         <button class="btn" type="submit"> 同意/授权</button>
