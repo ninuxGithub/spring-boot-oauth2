@@ -51,14 +51,15 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/WEB-INF/**");
     }
 
-    @Override
+
+    /* @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().csrfTokenRepository(csrfTokenRepository());
-        http/*.requestMatcher(new OAuth2RequestedMatcher())*/.authorizeRequests()
+        http.requestMatcher(new OAuth2RequestedMatcher()).authorizeRequests()
                 .antMatchers("/api/**").authenticated()
                 .antMatchers("/auth/login", "/auth/authorize","/oauth/authorize").permitAll()
                 .anyRequest().authenticated()
-                .and().csrf().disable().httpBasic();
+                .and()*//*.csrf().disable()*//*.httpBasic();
 
         // 表单登录
         http.formLogin()
@@ -67,7 +68,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 // 登录处理url
                 .loginProcessingUrl("/auth/authorize");
     }
-
+*/
     private CsrfTokenRepository csrfTokenRepository() {
         HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
         repository.setSessionAttributeName("_csrf");

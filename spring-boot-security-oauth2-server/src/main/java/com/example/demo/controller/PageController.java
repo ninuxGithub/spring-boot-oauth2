@@ -6,12 +6,14 @@ import org.springframework.security.oauth2.provider.AuthorizationRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 @Controller
+@SessionAttributes("authorizationRequest")
 public class PageController {
 
 	private static final Logger logger = LoggerFactory.getLogger(PageController.class);
@@ -22,7 +24,7 @@ public class PageController {
 		return "index";
 	}
 
-	@RequestMapping(value = { "/auth/login" }, method = RequestMethod.GET)
+	/*@RequestMapping(value = { "/auth/login" }, method = RequestMethod.GET)
 	public String login() {
 		return "login";
 	}
@@ -34,5 +36,5 @@ public class PageController {
 		view.setViewName("grant");
 		view.addObject("clientId", authorizationRequest.getClientId());
 		return view;
-	}
+	}*/
 }
