@@ -1,10 +1,10 @@
 package com.example.demo.controller;
 
+import com.example.demo.utils.Oauth2Utils;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.AuthorizationRequest;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,4 +34,11 @@ public class AuthController {
 		view.addObject("clientId", authorizationRequest.getClientId());
 		return view;
 	}
+//
+//	@ResponseBody
+//	@RequestMapping("/oauth/check_token")
+//	public OAuth2AccessToken getToken(@RequestParam(value = "token") String token){
+//		OAuth2AccessToken oAuth2AccessToken = Oauth2Utils.checkTokenInOauth2Server(token);
+//		return oAuth2AccessToken;
+//	}
 }

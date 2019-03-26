@@ -89,7 +89,6 @@ public class OAuth2ServerConfiguration {
         protected void configure(HttpSecurity http) throws Exception {
             http.authorizeRequests()
                     .antMatchers("/api/**").authenticated()
-                    .antMatchers("/auth/login", "/auth/authorize", "/oauth/authorize").permitAll()
                     .antMatchers("/auth/login", "/auth/authorize", "/oauth/authorize","/oauth/check_token").permitAll()
                     .anyRequest().authenticated()
                     .and()
@@ -194,8 +193,10 @@ public class OAuth2ServerConfiguration {
             // 对于CheckEndpoint控制器[框架自带的校验]的/oauth/check端点允许所有客户端发送器请求而不会被Spring-security拦截
             //security.checkTokenAccess("permitAll()");
 
-            security.tokenKeyAccess("isAnonymous() || hasAuthority('ROLE_TRUSTED_CLIENT')")
-                    .checkTokenAccess("hasAuthority('ROLE_TRUSTED_CLIENT')");
+//            security.tokenKeyAccess("isAnonymous() || hasAuthority('ROLE_TRUSTED_CLIENT')")
+//                    .checkTokenAccess("hasAuthority('ROLE_TRUSTED_CLIENT')");
+            security.tokenKeyAccess("permitAll()")
+                    .checkTokenAccess("permitAll()"); //允许接口/oauth/check_token 被调用
         }
 
     }
